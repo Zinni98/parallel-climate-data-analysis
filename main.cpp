@@ -53,14 +53,18 @@ int main(int argc, char**argv)
         std::cout<<"Error during var_id retrieval"<<std::endl;
     
     double lon[8852366];
-    
-
+    status = nc_get_var_double(ncid, var_ids[2], &lon[0]);
+    if (status != NC_NOERR)
+    {
+        std::cout<<"Error during lon var retrieval"<<std::endl;
+        return 1;
+    }
     
     double lat[8852365];
     status = nc_get_var_double(ncid, var_ids[3], &lat[0]);
     if (status != NC_NOERR)
     {
-        std::cout<<"Error during var retrieval"<<std::endl;
+        std::cout<<"Error during lat var retrieval"<<std::endl;
         return 1;
     }
     else

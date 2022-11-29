@@ -60,7 +60,7 @@ int main(int argc, char**argv)
         return 1;
     }
     
-    double lat[8852365];
+    double lat[8852366];
     status = nc_get_var_double(ncid, var_ids[3], &lat[0]);
     if (status != NC_NOERR)
     {
@@ -74,6 +74,7 @@ int main(int argc, char**argv)
         {
             std::cout<<"lat: "<<lat[i]<<"; lon"<<lon[i]<<std::endl;
         }
+        std::cout<<"lat: "<<lat[8852368]<<"; lon"<<lon[8852368]<<std::endl;
     }
 
     return 0;

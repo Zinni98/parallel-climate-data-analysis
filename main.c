@@ -1,6 +1,5 @@
-#include <iostream>
+#include <stdio.h>
 #include <netcdf.h>
-#include <string>
 
 /**
  * TODO: Modify get_var_ids to return an array of structs containing var_name + var_id
@@ -15,7 +14,7 @@ int get_file_id(char* filename)
     int ncid;
     int status = nc_open(filename, NC_NOWRITE, &ncid);
     if(status != NC_NOERR)
-        std::cout<<"Errror during the file opening"<<std::endl;
+        printf("Errror during the file opening\n");
     return ncid;
 }
 int get_var_ids(int ncid, char** var_names, int var_ids[], int count)
@@ -50,13 +49,13 @@ int main(int argc, char**argv)
     int status = get_var_ids(ncid, vars, var_ids, 4);
     
     if (status != NC_NOERR)
-        std::cout<<"Error during var_id retrieval"<<std::endl;
+        printf("Error during var_id retrieval\n");
     
     double lon[8852366];
     status = nc_get_var_double(ncid, var_ids[2], &lon[0]);
     if (status != NC_NOERR)
     {
-        std::cout<<"Error during lon var retrieval"<<std::endl;
+        printf("Error during lon var retrieval\n");
         return 1;
     }
     
@@ -64,15 +63,15 @@ int main(int argc, char**argv)
     status = nc_get_var_double(ncid, var_ids[3], &lat[0]);
     if (status != NC_NOERR)
     {
-        std::cout<<"Error during lat var retrieval"<<std::endl;
+        printf("Error during lat var retrieval\n");
         return 1;
     }
     else
     {
-        std::cout<<"Printing first 1000 coordinates:"<<std::endl;
+        printf("Printing first 1000 coordinates:");
         for(int i=0; i + 321921 < 1000 + 321921; i++)
         {
-            std::cout<<"lat: "<<lat[i]<<"; lon"<<lon[i]<<std::endl;
+            printf("lat: %f; lon: %f\n", lat[i], lon[i]);
         }
     }
 

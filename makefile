@@ -1,6 +1,6 @@
-CC = mpic++
+CC = mpicc
 
-CFLAGS = -Wall -g
+CFLAGS = -std=c99 -Wall -g
  
 COMPFLAGS = -I /apps/netCDF4.7.0--gcc-9.1.0/include
 
@@ -8,7 +8,7 @@ LINKFLAGS = -L /apps/netCDF4.7.0--gcc-9.1.0/lib -lnetcdf
 
 all: main
 
-main: main.cpp
+main: main.c
 	$(CC) $(CFLAGS) -o $@ $^ $(LINKFLAGS) $(COMPFLAGS)
 
 clean:

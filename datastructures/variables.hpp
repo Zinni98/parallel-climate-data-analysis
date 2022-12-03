@@ -1,15 +1,15 @@
 #pragma once
 
-class variables
+class Variables
 {
 private:
-    int file_id;
+    int ncid;
     char* vars[];
     int* var_ids;
     void find_var_ids();
 public:
-    variables(int file_id, char** vars);
+    Variables(int file_id, char** vars);
     int* get_var_ids(char** var_names);
-    int get_var_id(char var_name);
-    ~variables();
+    int get_var_id(char* var_name);
+    Variables();
 };

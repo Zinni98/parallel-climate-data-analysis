@@ -69,12 +69,11 @@ int main(int argc, char**argv)
     }
     else
     {
-        std::cout<<"Printing first 100 coordinates:"<<std::endl;
-        for(int i=0; i<100; i++)
+        std::cout<<"Printing first 1000 coordinates:"<<std::endl;
+        for(int i=0; i + 321921 < 1000 + 321921; i++)
         {
             std::cout<<"lat: "<<lat[i]<<"; lon"<<lon[i]<<std::endl;
         }
-        std::cout<<"lat: "<<lat[8852368]<<"; lon"<<lon[8852368]<<std::endl;
     }
 
     return 0;

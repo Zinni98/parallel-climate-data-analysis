@@ -12,8 +12,7 @@
 #define NUM_VARS 3
 
 
-int get_file_id(const char* filename)
-{
+int get_file_id(const char* filename){
     /**
      * @param filename path to the netcdf file
      * @returns id of the file
@@ -25,15 +24,12 @@ int get_file_id(const char* filename)
     return ncid;
 }
 
-void get_var_ids(int ncid, const char *var_names[NUM_VARS], int var_ids[], int count)
-{
+void get_var_ids(int ncid, const char *var_names[NUM_VARS], int var_ids[], int count){
     /**
-     * @brief returns var_id of vnod
      * @param ncid id of netcdf file
      * @param var_names array of netcdf variable names for which ids should be ectracted
      * @param var_ids array used to store the result
      * @param count number of elements in var_names
-     * @returns error status, if no errors occur, constant NC_NOERR is returned
     */
     int status;
     for(int i=0; i<count; i++)
@@ -49,11 +45,16 @@ void get_var_ids(int ncid, const char *var_names[NUM_VARS], int var_ids[], int c
         printf("Error during var_id retrieval\n");
     else   
         printf("File read succesfully\n");
-    //return status;
 }
 
 
 bool check_var(const char *options[NUM_VARS], const char *var_name){
+    /**
+     * @brief return a bool for checking if a variable name is valid
+     * @param options : array of strings containing all valid names
+     * @param var_name : string representing the var_name to be checked
+     * @returns boolean flag, which is 0 if the variable exists, otherwise 1
+    */
     bool flag=0;
     for(int i=0; i<3; i++){
         printf("Comparing (%s, %s) : %s\n", options[i], var_name, strcmp(options[i], var_name) ? "false":"true");
@@ -71,6 +72,16 @@ bool check_var(const char *options[NUM_VARS], const char *var_name){
 
 int read_velocity(int ncid, const char *options[NUM_VARS], const char* var_name , const int *start_idxs, const int *count_idxs, 
                     const int *stride_steps, float target_buffer[TIME][DEPTH][NODE2]){
+    /**
+     * @brief returns writing status
+     * @param ncid id of netcdf file
+     * @param options : array of strings containing all valid names
+     * @param var_name : string representing the var_name to be checked
+     * @param start_idxs : array of ints representing the starting point (each dimension) for reading a variable in ncid
+     * @param count_idxs : array of ints representing the end point (each dimension) for reading a variable in ncid
+     * @param stride_step : array of ints representing the step with which data is read
+     * @returns error status (status_buffer), if no errors occur, const int NC_NOERR is returned
+    */
 
     // support vars
     bool flag=0;
@@ -108,7 +119,14 @@ int read_velocity(int ncid, const char *options[NUM_VARS], const char* var_name 
 
 
 float** compute_maximum(const int var_idx, float (*matrix)[DEPTH][NODE2], int *dimension){
-    // assuming valid names
+    /**
+     * @brief returns reduction matrix
+     * @param var_idx : variable index along which to reduce
+     * @param matrix : 3d matrix of data [time][depth][nodes]
+     * @param dimension : support variable to adapt code
+     * @returns 2d matrix of reduced data
+    */
+    
     float **maximums;  // dynamically allocate memory space for a matrix of floats
     
     if(var_idx == 0){                                 // returns 0 if equal

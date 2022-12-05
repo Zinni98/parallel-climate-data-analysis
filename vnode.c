@@ -11,7 +11,7 @@
 float** compute_maximum(const int var_idx, float (*matrix)[DEPTH][NODE2], int *dimension){
     /**
      * @brief returns reduction matrix
-     * @param var_idx : variable index along which to reduce
+     * @param var_idx : variable index along which the reduction is performed
      * @param matrix : 3d matrix of data [time][depth][nodes]
      * @param dimension : support variable to adapt code
      * @returns 2d matrix of reduced data

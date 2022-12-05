@@ -6,7 +6,7 @@
 // constants
 #define TIME 12
 #define DEPTH 69
-#define NODE2 8852366
+#define NODE2 500//8852366
 #define NUM_VARS 3
 
 

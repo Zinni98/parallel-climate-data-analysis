@@ -6,12 +6,12 @@
 // constants
 #define TIME 12
 #define DEPTH 69
-#define NODE2 8852366
+#define NODE2 500
 #define NUM_VARS 3
 
 
 int get_file_id(const char* filename);
 void get_var_ids(int ncid, const char *var_names[NUM_VARS], int var_ids[], int count);
-int read_velocity(int ncid, const char *options[NUM_VARS], const char* var_name , const int *start_idxs, const int *count_idxs, 
-                const int *stride_steps, float target_buffer[TIME][DEPTH][NODE2]);
+void print_2d_matrix(float **reduced_matrix, int num_elements);
+int check_status(int *status, const char* var_name);
 bool check_var(const char *options[NUM_VARS], const char *var_name);

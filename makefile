@@ -1,18 +1,15 @@
-CC = mpic++
+CC = mpicc
 
-CFLAGS = -Wall -g
+CFLAGS = -std=c99 -Wall -g
  
-COMPFLAGS = -std=c99 -I /apps/netCDF4.7.0--gcc-9.1.0/include
+COMPFLAGS = -I /apps/netCDF4.7.0--gcc-9.1.0/include
 
 LINKFLAGS = -L /apps/netCDF4.7.0--gcc-9.1.0/lib -lnetcdf
 
-all: main
+all: vnode
 
-main.o: main.cpp
-	$(CC) $(COMPFLAGS) $(CFLAGS) -c $^
-
-main: main.o
-	$(CC) $(LINKFLAGS) $(CFLAGS) -o $@ $^
+vnode: vnode.c
+	$(CC) $(CFLAGS) -o $@ $^ $(LINKFLAGS) $(COMPFLAGS)
 
 clean:
-	rm -r main.o main
+	rm -r vnode

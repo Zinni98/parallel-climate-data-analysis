@@ -36,3 +36,4 @@
 *.sh.o*
 run.sh
 main
+vnode

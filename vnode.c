@@ -103,12 +103,7 @@ int read_velocity(int ncid, const char *options[NUM_VARS], const char* var_name 
             status_buffer = nc_get_vars_float(ncid, var_id, &startv[0], &countv[0], &stridev[0], &target_buffer[0][0][0]);
             if (status_buffer != NC_NOERR){
                 printf("Error during data retrieval\n");
-                return 1;
-            }else{
-                printf("Printing first %d coordinates:\n", count_idxs[2]);
-                for(int i=0; i<count_idxs[1]; i++){
-                    printf("%d:%d:%d vnod: %f\n", (TIME-1), i, (NODE2-1), target_buffer[TIME-1][i][NODE2-1]);
-                } 
+                return status_buffer;
             }
         }else{
             printf("Detected error while reading %s id", var_name);

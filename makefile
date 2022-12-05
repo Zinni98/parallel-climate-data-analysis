@@ -8,7 +8,7 @@ LINKFLAGS = -L /apps/netCDF4.7.0--gcc-9.1.0/lib -lnetcdf
 
 all: vnode
 
-vnode: utils.h vnode.h vnode_test.h
+vnode: utils.c vnode.c vnode_test.c
 	$(CC) $(CFLAGS) -o $@ $^ $(LINKFLAGS) $(COMPFLAGS)
 
 clean:

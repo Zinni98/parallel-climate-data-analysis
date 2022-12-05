@@ -6,10 +6,10 @@ COMPFLAGS = -I /apps/netCDF4.7.0--gcc-9.1.0/include
 
 LINKFLAGS = -L /apps/netCDF4.7.0--gcc-9.1.0/lib -lnetcdf
 
-all: vnode
+all: node
 
-vnode: utils.c vnode.c vnode_test.c
+node: utils.c node.c unode.c vnode.c velocity.c node_test.c
 	$(CC) $(CFLAGS) -o $@ $^ $(LINKFLAGS) $(COMPFLAGS)
 
 clean:
-	rm -r vnode
+	rm -r node

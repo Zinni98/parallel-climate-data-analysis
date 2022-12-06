@@ -39,11 +39,11 @@ int read_velocity(int ncid, const char *options[NUM_VARS], const char* var_name 
         if(status_varid==NC_NOERR){
             status_buffer = nc_get_vars_float(ncid, var_id, &startv[0], &countv[0], &stridev[0], &target_buffer[0][0][0]);
             if (status_buffer != NC_NOERR){
-                printf("Error during data retrieval\n");
+                printf("\n============= Error during data retrieval =============\n");
                 return status_buffer;
             }
         }else{
-            printf("Detected error while reading %s id", var_name);
+            printf("\n============= Detected error while reading %s id =============\n", var_name);
         }
     }    
     return status_buffer;
@@ -62,7 +62,7 @@ float** compute_maximum(const int var_idx, float (*matrix)[DEPTH][NODE2], int *d
     float **maximums;  // dynamically allocate memory space for a matrix of floats
     
     if(var_idx == 0){                                 // returns 0 if equal
-        printf("Depth reduction\n");
+        printf("\n============= Depth reduction =============\n");
         *dimension = TIME;
         maximums = (float **)malloc(TIME * sizeof(float *));
         // maximum matrix initialiaztion
@@ -78,7 +78,7 @@ float** compute_maximum(const int var_idx, float (*matrix)[DEPTH][NODE2], int *d
             }
         }
     }else{
-       printf("Time reduction\n");
+       printf("\n============= Time reduction =============\n");
         *dimension = DEPTH;
         maximums = (float **)malloc(DEPTH * sizeof(float *));
         // maximum matrix initialiaztion
@@ -97,7 +97,6 @@ float** compute_maximum(const int var_idx, float (*matrix)[DEPTH][NODE2], int *d
     return maximums;
 }
 
-// doubt = here passing target_matrix (which is 3D matrix) shouldn't die
 void compute_norm(float vnode_mat[TIME][DEPTH][NODE2], float unode_mat[TIME][DEPTH][NODE2], float target_matrix[TIME][DEPTH][NODE2]){
     for(int time=0; time<TIME; time++){
         for(int depth=0; depth<DEPTH; depth++){

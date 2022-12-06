@@ -15,7 +15,7 @@ int get_file_id(const char* filename){
     int ncid;
     int status = nc_open(filename, NC_NOWRITE, &ncid);
     if(status != NC_NOERR)
-        printf("Error during the file opening\n");
+        printf("\n============= Error during the file opening =============\n");
     return ncid;
 }
 
@@ -37,18 +37,18 @@ void get_var_ids(int ncid, const char *var_names[NUM_VARS], int var_ids[], int c
             var_ids[i] = var_id;
     }
     if (status != NC_NOERR)
-        printf("Error during var_id retrieval\n");
+        printf("\n============= Error during var_id retrieval =============\n");
     else   
-        printf("File read succesfully\n");
+        printf("\n============= File read succesfully =============\n");
 }
 
-void print_2d_matrix(float **reduced_matrix, int num_elements){
+void print_2d_matrix(float **reduced_matrix, int num_elements, char *var_name){
     /*
     * @brief print the elements of a 2D matrix
     * @param reduced_matrix : matrix with maximums
     * @param num_elemnts : elemnts to be prited
     */
-    printf("Printing first %d elements of reduced matrix:\n", NODE2);
+    printf("\n============= Printing first %d elements of reduced matrix: =============\n", NODE2);
     for(int d=0; d<num_elements; d++){
         for(int node=0; node<NODE2;node++){
             printf("\n%d %d %f", d, node, reduced_matrix[d][node]);
@@ -58,14 +58,16 @@ void print_2d_matrix(float **reduced_matrix, int num_elements){
 
 int check_status(int *status, const char *var_name){
     /*
-    * @brief check exit status
-    * @param status : where to save error status
-    * @param var_name : name of the variable read in a command that returns status
-    */
+     * @brief check exit status
+     * @param status : where to save error status
+     * @param var_name : name of the variable read in a command that returns status
+     */
+    int local_status = 0;
     if ((*status) != NC_NOERR){
-        printf("Error during %s var retrieval\n", var_name);
-        return 1;
+        printf("\n============= Error during %s var retrieval =============\n", var_name);
+        local_status = 1;
     }
+    return local_status;
 }
 
 bool check_var(const char *options[NUM_VARS], const char *var_name){
@@ -77,13 +79,13 @@ bool check_var(const char *options[NUM_VARS], const char *var_name){
     */
     bool flag=0;
     for(int i=0; i<3; i++){
-        printf("Comparing (%s, %s) : %s\n", options[i], var_name, strcmp(options[i], var_name) ? "false":"true");
+        printf("\n============= Comparing (%s, %s) : %s =============\n", options[i], var_name, strcmp(options[i], var_name) ? "false":"true");
         if(!strcmp(options[i], var_name)){
             break;
         }
         if(i==2){
             flag = 1;
-            printf("Undefined variable name as input\n");
+            printf("\n============= Undefined variable name as input =============\n");
             }
         }
     return flag;

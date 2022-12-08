@@ -6,10 +6,13 @@ COMPFLAGS = -I /apps/netCDF4.7.0--gcc-9.1.0/include
 
 LINKFLAGS = -L /apps/netCDF4.7.0--gcc-9.1.0/lib -lnetcdf
 
-all: vnode_test
+all: vnode_test parallel_max
 
 vnode_test: utils.c vnode.c vnode_test.c
 	$(CC) $(CFLAGS) -o $@ $^ $(LINKFLAGS) $(COMPFLAGS)
 
+parallel_max: parallel_max.c utils.c
+	$(CC) $(CFLAGS) -o $@ $^ $(LINKFLAGS) $(COMPFLAGS)
+
 clean:
-	rm -r vnode_test
+	rm -r vnode_test parallel_max

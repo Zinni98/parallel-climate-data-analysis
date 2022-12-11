@@ -12,7 +12,7 @@
 int read_velocity(int ncid, const char *options[NUM_VARS], const char* var_name , const int *start_idxs, const int *count_idxs, 
                     const int *stride_steps, float target_buffer[TIME][DEPTH][NODE2]){
     /**
-     * @brief returns writing status
+     * @brief Wrapper for reading velocity (unod, vnod) from fesom netcdf files.
      * @param ncid id of netcdf file
      * @param options : array of strings containing all valid names
      * @param var_name : string representing the var_name to be checked

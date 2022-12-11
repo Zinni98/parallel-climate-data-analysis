@@ -108,6 +108,7 @@ void pop_max_matrix(float buffer[TIME][NODE2], int rows, int cols){
 
 
 void counts_and_displace(int *counts, int *displace, int comm_sz, int cols, char flag){
+    // gather
     if(flag == 'g'){
         for(int i=0; i<comm_sz; i++)
             {
@@ -119,7 +120,7 @@ void counts_and_displace(int *counts, int *displace, int comm_sz, int cols, char
                 }
                 displace[i] = cols*i;
             }
-    }else if (flag == 's'){
+    }else if (flag == 's'){ //scatter
         for (int i = 0; i < comm_sz; i++){
             if (i==(comm_sz-1)){
                 counts[i] = NODE2 - (comm_sz-1) * cols;

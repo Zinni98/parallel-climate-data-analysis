@@ -6,6 +6,7 @@
 #include <netcdf.h>
 #include "vnode.h"
 #include "utils.h"
+#include "velocity.h"
 
 
 int main(int argc, char**argv)
@@ -35,11 +36,12 @@ int main(int argc, char**argv)
     }
 
     vnod_reduced = compute_maximum(0, vnod, &dimension);
-    printf("Printing first %d elements of reduced matrix:\n", NODE2);
-    for(int d=0; d<dimension; d++){
+    // printf("Printing first %d elements of reduced matrix:\n", NODE2);
+    for(int d=0; d<TIME; d++){
         for(int node=0; node<NODE2;node++){
-            printf("\n%d %d %f", d, node, vnod_reduced[d][node]);
+            printf("%f ", vnod_reduced[d][node]);
         }
+        printf("\n");
     }
 
     free(vnod_reduced);

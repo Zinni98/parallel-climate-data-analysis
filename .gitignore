@@ -35,7 +35,5 @@
 *.sh.e*
 *.sh.o*
 run.sh
-main
-vnode
-vnode_test
-parallel_max
+parallel
+serial

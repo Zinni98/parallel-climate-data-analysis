@@ -4,5 +4,4 @@
 #include <stdbool.h>
 #include "utils.h"
 
-
-float** compute_maximum(const int var_idx, float (*matrix)[DEPTH][NODE2], int *dimension);
+#define PATH2VNODE "/shares/HPC4DataScience/FESOM2/vnod.fesom.2010.nc"

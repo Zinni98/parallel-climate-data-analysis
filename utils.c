@@ -15,14 +15,14 @@ int get_file_id(const char* filename){
     int ncid;
     int status = nc_open(filename, NC_NOWRITE, &ncid);
     if(status != NC_NOERR)
-        printf("Error during the file opening\n");
+        printf("\n============= Error during the file opening =============\n");
     return ncid;
 }
 
 void get_var_ids(int ncid, const char *var_names[NUM_VARS], int var_ids[], int count){
     /**
      * @param ncid id of netcdf file
-     * @param var_names array of netcdf variable names for which ids should be ectracted
+     * @param var_names array of netcdf variable names for which ids should be extracted
      * @param var_ids array used to store the result
      * @param count number of elements in var_names
     */
@@ -37,11 +37,38 @@ void get_var_ids(int ncid, const char *var_names[NUM_VARS], int var_ids[], int c
             var_ids[i] = var_id;
     }
     if (status != NC_NOERR)
-        printf("Error during var_id retrieval\n");
+        printf("\n============= Error during var_id retrieval =============\n");
     else   
-        printf("File read succesfully\n");
+        printf("\n============= File read succesfully =============\n");
 }
 
+void print_2d_matrix(float **reduced_matrix, int num_elements, char *var_name){
+    /*
+    * @brief print the elements of a 2D matrix
+    * @param reduced_matrix : matrix with maximums
+    * @param num_elemnts : elemnts to be prited
+    */
+    printf("\n============= Printing first %d elements of reduced matrix: =============\n", NODE2);
+    for(int d=0; d<num_elements; d++){
+        for(int node=0; node<NODE2;node++){
+            printf("\n%d %d %f", d, node, reduced_matrix[d][node]);
+        }
+    }
+}
+
+int check_status(int *status, const char *var_name){
+    /*
+     * @brief check exit status
+     * @param status : where to save error status
+     * @param var_name : name of the variable read in a command that returns status
+     */
+    int local_status = 0;
+    if ((*status) != NC_NOERR){
+        printf("\n============= Error during %s var retrieval =============\n", var_name);
+        local_status = 1;
+    }
+    return local_status;
+}
 
 bool check_var(const char *options[NUM_VARS], const char *var_name){
     /**
@@ -52,57 +79,56 @@ bool check_var(const char *options[NUM_VARS], const char *var_name){
     */
     bool flag=0;
     for(int i=0; i<3; i++){
-        printf("Comparing (%s, %s) : %s\n", options[i], var_name, strcmp(options[i], var_name) ? "false":"true");
+        printf("\n============= Comparing (%s, %s) : %s =============\n", options[i], var_name, strcmp(options[i], var_name) ? "false":"true");
         if(!strcmp(options[i], var_name)){
             break;
         }
         if(i==2){
             flag = 1;
-            printf("Undefined variable name as input\n");
+            printf("\n============= Undefined variable name as input =============\n");
             }
         }
     return flag;
 }
 
 
-int read_velocity(int ncid, const char *options[NUM_VARS], const char* var_name , const int *start_idxs, const int *count_idxs, 
-                    const int *stride_steps, float target_buffer[TIME][DEPTH][NODE2]){
+void pop_max_matrix(float buffer[TIME][NODE2], int rows, int cols){
     /**
-     * @brief returns writing status
-     * @param ncid id of netcdf file
-     * @param options : array of strings containing all valid names
-     * @param var_name : string representing the var_name to be checked
-     * @param start_idxs : array of ints representing the starting point (each dimension) for reading a variable in ncid
-     * @param count_idxs : array of ints representing the end point (each dimension) for reading a variable in ncid
-     * @param stride_step : array of ints representing the step with which data is read
-     * @returns error status (status_buffer), if no errors occur, const int NC_NOERR is returned
+     * @brief populate a new brand matrix
+     * @param buffer : target matrix to populate
+     * @param rows : row dimension
+     * @param cols : columns dimension
     */
-
-    // support vars
-    bool flag=0;
-    int var_id;
-    int status_varid;
-    int status_buffer;
-
-    // starting point, end point and stride
-    const size_t startv[3] = {start_idxs[0], start_idxs[1], start_idxs[2]};
-    const size_t countv[3] = {count_idxs[0], count_idxs[1], count_idxs[2]};
-    const ptrdiff_t stridev[3] = {stride_steps[0], stride_steps[1], stride_steps[2]};
-
-    flag = check_var(options, var_name);
-    if(!flag){
-        status_varid = nc_inq_varid(ncid, var_name, &var_id);
-        if(status_varid==NC_NOERR){
-            // wrting all "var_name" related data from file with id "ncid"
-            // from "startv" to "countv" with step "stridev" (dimension-wise) to "target buffer"
-            status_buffer = nc_get_vars_float(ncid, var_id, &startv[0], &countv[0], &stridev[0], &target_buffer[0][0][0]);
-            if (status_buffer != NC_NOERR){
-                printf("Error during data retrieval\n");
-                return status_buffer;
-            }
-        }else{
-            printf("Detected error while reading %s id", var_name);
+    for(int i=0; i<rows; i++){
+        for(int j=0; j<cols; j++){
+            buffer[i][j] = -1;
         }
-    }    
-    return status_buffer;
+    }
+}
+
+
+void counts_and_displace(int *counts, int *displace, int comm_sz, int cols, char flag){
+    if(flag == 'g'){
+        for(int i=0; i<comm_sz; i++)
+            {
+                if(i == comm_sz - 1){
+                    counts[i] = TIME * (NODE2 - (comm_sz - 1) * cols);
+                }
+                else{
+                    counts[i] = cols*TIME;
+                }
+                displace[i] = cols*i;
+            }
+    }else if (flag == 's'){
+        for (int i = 0; i < comm_sz; i++){
+            if (i==(comm_sz-1)){
+                counts[i] = NODE2 - (comm_sz-1) * cols;
+            }else{
+                counts[i] = cols;
+            }
+            displace[i] = i*cols;
+        }
+    }else{
+        printf("Error\n");
+    }
 }

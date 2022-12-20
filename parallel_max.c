@@ -8,6 +8,11 @@
 
 int main(int argc, char**argv){
 
+    /**
+     * Note that the number of processes should be at least 6
+     * Otherwise it doesn't work when all nodes of the mesh
+     * are used
+    */
     int comm_sz, rank, cols;
     int counts[comm_sz], displace[comm_sz];
     float vnod[TIME][DEPTH][NODE2];

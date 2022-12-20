@@ -22,7 +22,7 @@ int main(int argc, char**argv){
     MPI_Comm_rank(MPI_COMM_WORLD, &rank);
     if(rank==0)
     {
-        printf("\n============= Parallel =============\n");
+        // printf("\n============= Parallel =============\n");
         int status = 0;
         const char* vars[] = {"nz1", "time", "vnod"};
         int var_ids[3];

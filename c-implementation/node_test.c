@@ -46,7 +46,8 @@ int main(int argc, char**argv)
     }
 
     tot = end - start;
-
+    printf("# Processes,Time\n");
+    printf("%d, %f", 1, tot);
 
     // read unode and check outcome
     /*

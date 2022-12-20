@@ -8,10 +8,10 @@ LINKFLAGS = -L /apps/netCDF4.7.0--gcc-9.1.0/lib -lnetcdf
 
 all: parallel serial
 
-parallel: utils.c unode.c vnode.c velocity.c parallel_max.c
+parallel: utils.c parallel_max.c
 	$(CC) $(CFLAGS) -o $@ $^ $(LINKFLAGS) $(COMPFLAGS) -lm
 
-serial: utils.c unode.c vnode.c velocity.c serial.c
+serial: utils.c serial.c
 	$(CC) $(CFLAGS) -o $@ $^ $(LINKFLAGS) $(COMPFLAGS) -lm
 
 clean:

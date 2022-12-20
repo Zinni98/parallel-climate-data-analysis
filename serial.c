@@ -4,13 +4,13 @@
 #include <string.h>
 #include <stdbool.h>
 #include <netcdf.h>
-#include "vnode.h"
+#include <mpi.h>
 #include "utils.h"
-#include "velocity.h"
 
 
 int main(int argc, char**argv)
 {
+    printf("\n============= Serial =============\n");
     // var declaration
     const char* path = "/shares/HPC4DataScience/FESOM2/vnod.fesom.2010.nc";
     const char* vars[] = {"nz1", "time", "vnod"};
@@ -35,14 +35,21 @@ int main(int argc, char**argv)
         return 1;
     }
 
+    double start = MPI_Wtime();
     vnod_reduced = compute_maximum(0, vnod, &dimension);
+    double end = MPI_Wtime();
+
+    double tot = end - start;
+
+    printf("proc,time\n");
+    printf("%d, %f", 1, tot);
     // printf("Printing first %d elements of reduced matrix:\n", NODE2);
-    for(int d=0; d<TIME; d++){
+    /* for(int d=0; d<TIME; d++){
         for(int node=0; node<NODE2;node++){
             printf("%f ", vnod_reduced[d][node]);
         }
         printf("\n");
-    }
+    } */
 
     free(vnod_reduced);
     return 0;

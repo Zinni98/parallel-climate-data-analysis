@@ -4,11 +4,10 @@
 #include <mpi.h>
 #include <math.h>
 #include "utils.h"
-#include "vnode.h"
-#include "velocity.h"
 
 
 int main(int argc, char**argv){
+
     int comm_sz, rank, cols;
     int counts[comm_sz], displace[comm_sz];
     float vnod[TIME][DEPTH][NODE2];
@@ -18,6 +17,7 @@ int main(int argc, char**argv){
     MPI_Comm_rank(MPI_COMM_WORLD, &rank);
     if(rank==0)
     {
+        printf("\n============= Parallel =============\n");
         int status = 0;
         const char* vars[] = {"nz1", "time", "vnod"};
         int var_ids[3];
@@ -32,8 +32,13 @@ int main(int argc, char**argv){
         if(status){
             printf("Error while retrieving vnod data\n");
         }
+        printf("\n");
         /* at this point process 0 should have read the velocity matrix */ 
     }
+
+    MPI_Barrier(MPI_COMM_WORLD);
+
+    double start = MPI_Wtime();
 
     cols = NODE2/comm_sz;
     if(rank == comm_sz - 1)
@@ -91,7 +96,9 @@ int main(int argc, char**argv){
 
     MPI_Gatherv(local_max, cols*TIME, MPI_FLOAT, max, recv_counts, recv_displace, recv_type, 0, MPI_COMM_WORLD);
 
-    if(rank == 0)
+    double end = MPI_Wtime();
+    double tot= end - start;
+    /* if(rank == 0)
     {
         for(int i=0; i<TIME; i++)
         {
@@ -99,8 +106,13 @@ int main(int argc, char**argv){
                 printf("%f ", max[i][j]);
             printf("\n");
         }
-    }
+    } */
 
+    if(rank == 0)
+    {
+        printf("proc,time\n");
+        printf("%d, %f", comm_sz, tot);
+    }
     // MPI_Barrier(MPI_COMM_WORLD);
 
     if(rank == 0)

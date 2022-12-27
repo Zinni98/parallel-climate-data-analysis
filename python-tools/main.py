@@ -7,7 +7,7 @@ from benchmark_stats import Statistics
 from makeplots import read_input_file
 from tabulate import tabulate
 
-SERIAL_TIME = random()
+SERIAL_TIME = 34.670000     # time in seconds
 
 
 if __name__ == "__main__":

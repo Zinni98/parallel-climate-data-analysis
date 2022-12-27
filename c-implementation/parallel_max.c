@@ -113,15 +113,12 @@ int main(int argc, char**argv){
         }
     } */
 
-    if(rank == 0)
-    {
-        printf("proc,time\n");
-        printf("%d, %f", comm_sz, tot);
-    }
     // MPI_Barrier(MPI_COMM_WORLD);
 
     if(rank == 0)
     {
+        printf("# Processes,Time\n");
+        printf("%d, %f", comm_sz, tot);
         MPI_Type_free(&vcol);
         MPI_Type_free(&vcoltype);
     }

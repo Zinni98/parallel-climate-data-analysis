@@ -39,8 +39,8 @@ void get_var_ids(int ncid, const char *var_names[NUM_VARS], int var_ids[], int c
     }
     if (status != NC_NOERR)
         printf("\n============= Error during var_id retrieval =============\n");
-    else   
-        printf("\n============= File read succesfully =============\n");
+    //else   
+    //    printf("\n============= File read succesfully =============\n");
 }
 
 int read_velocity(int ncid, const char *options[NUM_VARS], const char* var_name , const int *start_idxs, const int *count_idxs, 
@@ -120,7 +120,7 @@ bool check_var(const char *options[NUM_VARS], const char *var_name){
     */
     bool flag=0;
     for(int i=0; i<3; i++){
-        printf("\n============= Comparing (%s, %s) : %s =============\n", options[i], var_name, strcmp(options[i], var_name) ? "false":"true");
+        // printf("\n============= Comparing (%s, %s) : %s =============\n", options[i], var_name, strcmp(options[i], var_name) ? "false":"true");
         if(!strcmp(options[i], var_name)){
             break;
         }

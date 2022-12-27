@@ -1,7 +1,7 @@
 """Algorithm to deal with file handling"""
 
 
-PATH2WRITEFILE = "./out.txt"
+PATH2WRITEFILE = "./stats_file.txt"
 PATH2READFILE = "./input.txt"
 
 

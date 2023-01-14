@@ -68,5 +68,5 @@ def plotter(df: pd.DataFrame, metric: str, filename: str = "./trends/") -> None:
     #    plt.annotate("(%.2f, %.2f)" % xy, xy=xy)
 
     fig.canvas.mpl_connect("pick_event", onpick1)
-    plt.savefig(filename)
+    plt.savefig(filename + metric + ".png")
     plt.show()

@@ -37,7 +37,7 @@ class Parser:
             type=type(choices[0]),
             action=custom_action,
             choices=choices,
-            default="time",
+            default="Time",
             dest=name,
         )
 

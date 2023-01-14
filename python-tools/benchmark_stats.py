@@ -27,7 +27,9 @@ class Statistics:
         # speedup formula : S = Tserial/Tparallel
         speedup_df = self.data.copy()
         speedup_df.rename(columns={"Time": "Speedup"}, inplace=True)
-        speedup_df["Speedup"] = self.data["Time"] / self.serial_time
+        speedup_df["Speedup"] = (
+            self.serial_time / self.data["Time"]
+        )  # / self.serial_time
         return speedup_df
 
     def compute_efficiency(self) -> pd.DataFrame:

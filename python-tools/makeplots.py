@@ -1,13 +1,16 @@
 "Algorthm to perform benchmarks"
 
+from typing import List, Tuple
+
 import matplotlib
 import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
 from matplotlib.lines import Line2D
+from pandas._libs.lib import NoDefault
 
 
-def read_input_file(file: str, metric: str):
+def read_input_file(file: str, metric: str) -> pd.DataFrame:
     """Reads a file as a pandas DataFrame
     Parameters:
     ------------
@@ -36,7 +39,7 @@ def onpick1(event):
         print("Stats=" + str(np.take(ydata, ind)[0]))  # Print Y point
 
 
-def plotter(df: pd.DataFrame, metric: str) -> None:
+def plotter(df: pd.DataFrame, metric: str, filename: str = "./trends/") -> None:
     """Function to plots graphs
     Parameters:
     ------------
@@ -65,4 +68,5 @@ def plotter(df: pd.DataFrame, metric: str) -> None:
     #    plt.annotate("(%.2f, %.2f)" % xy, xy=xy)
 
     fig.canvas.mpl_connect("pick_event", onpick1)
+    plt.savefig(filename)
     plt.show()

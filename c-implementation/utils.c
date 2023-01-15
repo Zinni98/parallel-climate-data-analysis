@@ -20,6 +20,7 @@ int get_file_id(const char* filename){
     return ncid;
 }
 
+
 void get_var_ids(int ncid, const char *var_names[NUM_VARS], int var_ids[], int count){
     /**
      * @param ncid id of netcdf file
@@ -39,9 +40,8 @@ void get_var_ids(int ncid, const char *var_names[NUM_VARS], int var_ids[], int c
     }
     if (status != NC_NOERR)
         printf("\n============= Error during var_id retrieval =============\n");
-    //else   
-    //    printf("\n============= File read succesfully =============\n");
 }
+
 
 int read_velocity(int ncid, const char *options[NUM_VARS], const char* var_name , const int *start_idxs, const int *count_idxs, 
                     const int *stride_steps, float target_buffer[TIME][DEPTH][NODE2]){
@@ -83,6 +83,7 @@ int read_velocity(int ncid, const char *options[NUM_VARS], const char* var_name 
     return status_buffer;
 }
 
+
 void print_2d_matrix(float **reduced_matrix, int num_elements, char *var_name){
     /*
     * @brief print the elements of a 2D matrix
@@ -96,6 +97,7 @@ void print_2d_matrix(float **reduced_matrix, int num_elements, char *var_name){
         }
     }
 }
+
 
 int check_status(int *status, const char *var_name){
     /*
@@ -111,6 +113,7 @@ int check_status(int *status, const char *var_name){
     return local_status;
 }
 
+
 bool check_var(const char *options[NUM_VARS], const char *var_name){
     /**
      * @brief return a bool for checking if a variable name is valid
@@ -120,7 +123,6 @@ bool check_var(const char *options[NUM_VARS], const char *var_name){
     */
     bool flag=0;
     for(int i=0; i<3; i++){
-        // printf("\n============= Comparing (%s, %s) : %s =============\n", options[i], var_name, strcmp(options[i], var_name) ? "false":"true");
         if(!strcmp(options[i], var_name)){
             break;
         }
@@ -148,33 +150,6 @@ void pop_max_matrix(float buffer[TIME][NODE2], int rows, int cols){
 }
 
 
-void counts_and_displace(int *counts, int *displace, int comm_sz, int cols, char flag){
-    // gather
-    if(flag == 'g'){
-        for(int i=0; i<comm_sz; i++)
-            {
-                if(i == comm_sz - 1){
-                    counts[i] = TIME * (NODE2 - (comm_sz - 1) * cols);
-                }
-                else{
-                    counts[i] = cols*TIME;
-                }
-                displace[i] = cols*i;
-            }
-    }else if (flag == 's'){ //scatter
-        for (int i = 0; i < comm_sz; i++){
-            if (i==(comm_sz-1)){
-                counts[i] = NODE2 - (comm_sz-1) * cols;
-            }else{
-                counts[i] = cols;
-            }
-            displace[i] = i*cols;
-        }
-    }else{
-        printf("Error\n");
-    }
-}
-
 float** compute_maximum(const int var_idx, float (*matrix)[DEPTH][NODE2], int *dimension){
     /**
      * @brief returns reduction matrix
@@ -184,10 +159,9 @@ float** compute_maximum(const int var_idx, float (*matrix)[DEPTH][NODE2], int *d
      * @returns 2d matrix of reduced data
     */
     
-    float **maximums;  // dynamically allocate memory space for a matrix of floats
+    float **maximums;
     
-    if(var_idx == 0){                                 // returns 0 if equal
-        //printf("\n============= Depth reduction =============\n");
+    if(var_idx == 0){
         *dimension = TIME;
         maximums = (float **)malloc(TIME * sizeof(float *));
         // maximum matrix initialiaztion
@@ -203,7 +177,6 @@ float** compute_maximum(const int var_idx, float (*matrix)[DEPTH][NODE2], int *d
             }
         }
     }else{
-       //printf("\n============= Time reduction =============\n");
         *dimension = DEPTH;
         maximums = (float **)malloc(DEPTH * sizeof(float *));
         // maximum matrix initialiaztion
@@ -221,6 +194,7 @@ float** compute_maximum(const int var_idx, float (*matrix)[DEPTH][NODE2], int *d
     }
     return maximums;
 }
+
 
 void compute_norm(float vnode_mat[TIME][DEPTH][NODE2], float unode_mat[TIME][DEPTH][NODE2], float target_matrix[TIME][DEPTH][NODE2]){
     for(int time=0; time<TIME; time++){
@@ -250,6 +224,7 @@ void compute_inverted_max(int dim1, int dim2, int dim3, float local_velocity[dim
     }
     return;
 }
+
 
 void waste_time(long iterations){
     long a = 0;

@@ -16,7 +16,7 @@ int main(int argc, char**argv)
     MPI_Comm_rank(MPI_COMM_WORLD, &rank);
     printf("\n============= Serial =============\n");
     // var declaration
-    const char* path = "/shares/HPC4DataScience/FESOM2/vnod.fesom.2010.nc";
+    const char* path = PATH2VNODE;
     const char* vars[] = {"nz1", "time", "vnod"};
     int var_ids[3];
     float vnod[TIME][DEPTH][NODE2];
@@ -48,15 +48,10 @@ int main(int argc, char**argv)
 
     printf("proc,time\n");
     printf("%d, %f", 1, tot);
-    // printf("Printing first %d elements of reduced matrix:\n", NODE2);
-    /* for(int d=0; d<TIME; d++){
-        for(int node=0; node<NODE2;node++){
-            printf("%f ", vnod_reduced[d][node]);
-        }
-        printf("\n");
-    } */
 
     free(vnod_reduced);
+    
     MPI_Finalize();
+    
     return 0;
 }

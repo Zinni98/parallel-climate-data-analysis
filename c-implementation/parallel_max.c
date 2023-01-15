@@ -76,6 +76,7 @@ int main(int argc, char**argv){
 
     float local_max[cols][TIME];
     compute_inverted_max(TIME, DEPTH, cols, local_vnod, local_max);
+    waste_time((long)TIME*DEPTH*cols*100);
 
     float max[TIME][NODE2];
 

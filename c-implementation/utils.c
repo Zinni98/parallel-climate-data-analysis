@@ -208,6 +208,11 @@ void compute_norm(float vnode_mat[TIME][DEPTH][NODE2], float unode_mat[TIME][DEP
 
 
 void compute_inverted_max(int dim1, int dim2, int dim3, float local_velocity[dim3][dim1][dim2], float local_max[dim3][dim1]){
+    /**
+     * @brief Compute max along the second dimension (dim2) passed as parameter. It is and adaptation
+     *        of the computation of max, since data, after gathering, comes in a different shape.
+     *        Stores result in local_max.
+     */
     for(int i=0; i<dim3; i++)
     {
         for(int j=0; j<dim1; j++)

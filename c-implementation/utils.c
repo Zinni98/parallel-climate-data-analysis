@@ -187,7 +187,7 @@ float** compute_maximum(const int var_idx, float (*matrix)[DEPTH][NODE2], int *d
     float **maximums;  // dynamically allocate memory space for a matrix of floats
     
     if(var_idx == 0){                                 // returns 0 if equal
-        printf("\n============= Depth reduction =============\n");
+        //printf("\n============= Depth reduction =============\n");
         *dimension = TIME;
         maximums = (float **)malloc(TIME * sizeof(float *));
         // maximum matrix initialiaztion
@@ -203,7 +203,7 @@ float** compute_maximum(const int var_idx, float (*matrix)[DEPTH][NODE2], int *d
             }
         }
     }else{
-       printf("\n============= Time reduction =============\n");
+       //printf("\n============= Time reduction =============\n");
         *dimension = DEPTH;
         maximums = (float **)malloc(DEPTH * sizeof(float *));
         // maximum matrix initialiaztion
@@ -250,5 +250,15 @@ void compute_inverted_max(int dim1, int dim2, int dim3, float local_velocity[dim
     }
     return;
 }
+
+void waste_time(long iterations){
+    long a = 0;
+    for(int i; i<iterations; i++){
+        a += 1;
+    }
+}
+
+
+
 
 
